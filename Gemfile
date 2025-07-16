@@ -32,6 +32,8 @@ gem "bootsnap", require: false
 gem 'grape'         # lightweight REST-like API DSL
 gem 'panko_serializer'  # fast JSON serialization
 gem 'grape-entity'  # optional, sometimes used with Grape
+gem 'grape-swagger'
+
 
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
