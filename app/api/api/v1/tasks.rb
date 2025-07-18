@@ -96,11 +96,38 @@ module Api
           end
         end
 
+        desc "Add a new Task", {
+          summary: "Add a new Task",
+          success: [{code: 201, message: "Task successfully added"}],
+          failure: [
+          {code: 400, message: "Bad request"},
+          {code: 404, message: "Task not found"},
+          {code: 500, message: "Internal server error"}
+        ]
+        }
 
+        params do
+          requires :task, type: Hash do
+            optional :title, type: String, documentation: {example: "Walk the dog!"}
+          end
+        end
 
-      
+        post do
+          attrs = declared(params, include_missing: false)[:task]
+          error!("Task not found", 404)
 
+          task = ::Task.new(
+            title: attrs[:title]
+          )
 
+            if task.save
+              status 201
+              Panko::Response.new(task: TaskSerializer.new.serialize(task))
+            else
+              error!(task.errors.full_message.to_sentence, 400)
+            end
+          end
+          
       end
     end
   end
