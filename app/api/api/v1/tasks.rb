@@ -77,7 +77,7 @@ module Api
 
         params do
           requires :id, type: String, desc: "Task ID"
-          requires :Task, type: Hash do
+          requires :task, type: Hash do
             optional :title, type: String, documentation: {example: "Do the dishes.."}
           end
         end
@@ -114,7 +114,6 @@ module Api
 
         post do
           attrs = declared(params, include_missing: false)[:task]
-          error!("Task not found", 404)
 
           task = ::Task.new(
             title: attrs[:title]
@@ -127,7 +126,7 @@ module Api
               error!(task.errors.full_message.to_sentence, 400)
             end
           end
-          
+
       end
     end
   end
